@@ -57,6 +57,7 @@ public class RSVPServiceImpl implements RSVPService {
 			Notification notification = Notification.builder().recipient(attendee).title("Registration Successful")
 					.message("You have successfully registered for " + event.getTitle()
 							+ (session != null ? " - " + session.getTitle() : "") + ".")
+					.timestamp(event.getDateTime())
 					.build();
 			notificationRepository.save(notification);
 	     

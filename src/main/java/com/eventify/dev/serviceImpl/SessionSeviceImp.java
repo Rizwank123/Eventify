@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import com.eventify.dev.dto.SessionDto;
 import com.eventify.dev.dto.SessionRegistrationRequest;
 import com.eventify.dev.entity.Event;
+import com.eventify.dev.entity.Notification;
 import com.eventify.dev.entity.Session;
 import com.eventify.dev.repository.EventRepository;
+import com.eventify.dev.repository.NotificationRepository;
 import com.eventify.dev.repository.SessionRepository;
 import com.eventify.dev.service.SessionService;
 
@@ -19,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class SessionSeviceImp implements SessionService {
 	 private final SessionRepository sessionRepository;
 	 private final EventRepository eventRepository;
+	 private final NotificationRepository notificationRepository;
 	@Override
 	public void createSession(SessionDto request) {
 		 Event event = eventRepository.findById(request.getEventId())
@@ -33,6 +36,12 @@ public class SessionSeviceImp implements SessionService {
 	                .build();
 
 	        sessionRepository.save(session);
+	        // Notify the event organizer about the session creation
+			Notification notification = Notification.builder().recipient(event.getOrganizer()).title("Session Created")
+					.message("A new session " + session.getTitle() + " has been created for your event.")
+					.timestamp(session.getStartTime()).build();
+			notificationRepository.save(notification);
+	        
 
 	}
 

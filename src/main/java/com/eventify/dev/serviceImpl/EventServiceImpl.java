@@ -1,5 +1,6 @@
 package com.eventify.dev.serviceImpl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,6 +51,7 @@ public class EventServiceImpl implements EventService {
 				.recipient(organizer)
 				.title("Event Created")
 				.message("Your event " + event.getTitle() + " has been created.")
+				.timestamp(LocalDateTime.now())
 				.build();	
 		notificationRepository.save(notification);
         return mapToResponse(saved);
@@ -79,6 +81,7 @@ public class EventServiceImpl implements EventService {
 				.recipient(event.getOrganizer())
 				.title("Event Updated")
 				.message("Your event " + event.getTitle() + " has been updated.")
+				.timestamp(LocalDateTime.now())
 				.build();
 		
 		notificationRepository.save(notification);
