@@ -67,6 +67,11 @@
             <version>0.11.5</version>
         </dependency>
         <dependency>
+		    <groupId>com.github.docker-java</groupId>
+		    <artifactId>docker-java-api</artifactId>
+		    <version>3.4.1</version>
+		</dependency>
+        <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.5</version>

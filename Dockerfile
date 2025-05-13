@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /eventify-backend
 
 # Copy the built JAR into the new directory
-COPY target/eventify-backend.jar app.jar
+COPY target/*.jar app.jar
 
 # Expose backend port
 EXPOSE 8080

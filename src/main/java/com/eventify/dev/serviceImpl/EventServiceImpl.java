@@ -21,7 +21,6 @@ import com.eventify.dev.repository.UserRepository;
 import com.eventify.dev.security.UserDetailsImpl;
 import com.eventify.dev.service.EventService;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
