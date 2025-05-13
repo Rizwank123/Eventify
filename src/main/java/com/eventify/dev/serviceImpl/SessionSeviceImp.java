@@ -6,10 +6,10 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.eventify.dev.dto.SessionDto;
-import com.eventify.dev.dto.SessionRegistrationRequest;
 import com.eventify.dev.entity.Event;
 import com.eventify.dev.entity.Notification;
 import com.eventify.dev.entity.Session;
+import com.eventify.dev.exception.EventNotFound;
 import com.eventify.dev.repository.EventRepository;
 import com.eventify.dev.repository.NotificationRepository;
 import com.eventify.dev.repository.SessionRepository;
@@ -25,7 +25,7 @@ public class SessionSeviceImp implements SessionService {
 	@Override
 	public void createSession(SessionDto request) {
 		 Event event = eventRepository.findById(request.getEventId())
-	                .orElseThrow(() -> new RuntimeException("Event not found"));
+	                .orElseThrow(() -> new EventNotFound("Event not found"));
 
 	        Session session = Session.builder()
 	                .title(request.getTitle())

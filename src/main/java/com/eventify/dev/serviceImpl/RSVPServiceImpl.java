@@ -13,6 +13,8 @@ import com.eventify.dev.entity.Notification;
 import com.eventify.dev.entity.Registration;
 import com.eventify.dev.entity.Session;
 import com.eventify.dev.entity.User;
+import com.eventify.dev.exception.EventNotFound;
+import com.eventify.dev.exception.UserAlreadyExistsException;
 import com.eventify.dev.repository.EventRepository;
 import com.eventify.dev.repository.NotificationRepository;
 import com.eventify.dev.repository.RegistrationRepository;
@@ -38,14 +40,16 @@ public class RSVPServiceImpl implements RSVPService {
 	        User attendee = userRepository.findById(userDetails.getId()).orElseThrow();
 
 	        Event event = eventRepository.findById(request.getEventId())
-	                .orElseThrow(() -> new EntityNotFoundException("Event not found"));
+	                .orElseThrow(() -> new EventNotFound("Event not found"));
 
 	        Session session = null;
 	        if (request.getSessionId() != null) {
 	            session = sessionRepository.findById(request.getSessionId())
 	                    .orElseThrow(() -> new EntityNotFoundException("Session not found"));
 	        }
-
+			if (session != null && session.getEvent().getId().equals(request.getEventId())) {
+				throw new UserAlreadyExistsException("Allready registered for this session");
+			}
 	        Registration registration = Registration.builder()
 	                .attendee(attendee)
 	                .event(event)

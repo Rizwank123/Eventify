@@ -6,8 +6,6 @@ import java.util.UUID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -25,7 +23,6 @@ public class Event {
 	@Id
 	@Builder.Default
     private  UUID id = UUID.randomUUID();
-
     private String title;
     private String description;
     private String location;

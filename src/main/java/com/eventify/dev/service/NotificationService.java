@@ -8,5 +8,6 @@ import com.eventify.dev.dto.NotificationResponse;
 public interface NotificationService {
 	public void sendNotification(UUID userId, String message);
 	public List<NotificationResponse> getMyNotifications();
+	public void markAsRead(UUID notificationId);
 
 }

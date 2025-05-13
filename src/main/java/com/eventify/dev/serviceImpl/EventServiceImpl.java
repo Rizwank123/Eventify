@@ -13,6 +13,8 @@ import com.eventify.dev.entity.Event;
 import com.eventify.dev.entity.EventStatus;
 import com.eventify.dev.entity.Notification;
 import com.eventify.dev.entity.User;
+import com.eventify.dev.exception.EventNotFound;
+import com.eventify.dev.exception.UserNotFoundException;
 import com.eventify.dev.repository.EventRepository;
 import com.eventify.dev.repository.NotificationRepository;
 import com.eventify.dev.repository.UserRepository;
@@ -34,7 +36,7 @@ public class EventServiceImpl implements EventService {
 	public EventResponse createEvent(EventRequest eventRquest) {
 		UserDetailsImpl currentUser = getCurrentUser();
         User organizer = userRepository.findById(currentUser.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Organizer not found"));
+                .orElseThrow(() -> new UserNotFoundException("Organizer not found"));
 
         Event event = Event.builder()
                 .title(eventRquest.getTitle())
@@ -61,7 +63,7 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public EventResponse updateEvent(UUID id, EventRequest request) {
 		Event event = eventRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Event not found"));
+                .orElseThrow(() -> new EventNotFound("Event not found"));
 			
 		if (request.getTitle() != null) {
 			event.setTitle(request.getTitle());
@@ -90,7 +92,7 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public EventResponse getEventById(UUID id) {
-		Event event = eventRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Event not found"));
+		Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFound("Event not found"));
 
 		return mapToResponse(event);
 		
@@ -121,5 +123,10 @@ public class EventServiceImpl implements EventService {
                 .organizerUsername(event.getOrganizer().getUsername())
                 .build();
     }
+
+	@Override
+	public List<EventResponse> getAllEvents() {
+		return eventRepository.findAll().stream().map(this::mapToResponse).toList();
+	}
 
 }

@@ -3,9 +3,9 @@ package com.eventify.dev.security;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
 import com.eventify.dev.entity.Role;
 import com.eventify.dev.entity.User;
@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
+	private static final long serialVersionUID = 1L;
 	private final User user;
 
     @Override

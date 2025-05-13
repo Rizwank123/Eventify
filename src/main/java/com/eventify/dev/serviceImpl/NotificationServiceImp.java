@@ -1,4 +1,4 @@
-package com.eventify.dev.security;
+package com.eventify.dev.serviceImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import com.eventify.dev.dto.NotificationResponse;
 import com.eventify.dev.entity.Notification;
 import com.eventify.dev.entity.User;
+import com.eventify.dev.exception.UserNotFoundException;
 import com.eventify.dev.repository.NotificationRepository;
 import com.eventify.dev.repository.UserRepository;
+import com.eventify.dev.security.UserDetailsImpl;
 import com.eventify.dev.service.NotificationService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -57,5 +59,16 @@ public class NotificationServiceImp implements NotificationService {
         return (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
     }
+
+	@Override
+	public void markAsRead(UUID notificationId) {
+		// TODO Auto-generated method stub
+		Notification notification = notificationRepository.findById(notificationId)
+				.orElseThrow(() -> new UserNotFoundException("Notification not found"));
+
+		notification.setRead(true);
+		notificationRepository.save(notification);
+		
+	}
 
 }
